@@ -110,7 +110,8 @@ function getAndDisplayWeather(city) {
 		      
 		      console.log("data fetched from api");
 		      console.log(data);
-		      $("#display").html(data.name + "<br>" + data.main.temp_min);
+
+		      displayWeather(data);
 
 		      // record todays weather data 
 		      localStorage.setItem("todays_weather_in_"+city, JSON.stringify(data));
@@ -133,14 +134,20 @@ function getAndDisplayWeather(city) {
 		var data = JSON.parse(localStorage.getItem("todays_weather_in_"+city));
 		console.log("data loaded from cookie");
 		console.log(data);
-	     $("#display").html(data.name + "<br>" + data.main.temp_min);
+	    
+	    displayWeather(data);
 
 	    // store the provided city in cookies 
 		localStorage.setItem("last_selected_city", city);
 	}
 
+
+	function displayWeather(data) {
+		$("#display").html(data.name + "<br>" + data.main.temp_min);
+	} // displayWeather()
+
 	console.log("localStorage = ");
     console.log(localStorage);
 
-}
+} //  getAndDisplayWeather(city)
 
