@@ -1,5 +1,5 @@
 
-// -------------------------------------------------------------------------------------------- VARS 
+// -------------------------------------------------------------------------------------------- PRESETS 
 
 // var openweathermap_api is located inside private_keys.js which is not commited
 // please generate your own api key at http://api.openweathermap.org
@@ -7,8 +7,25 @@
 var celsius = "metric";
 var fahrenheit = "imperial";
 
+// weather for how many cities can be looked up a day
+var city_lookup_day_limit = 3;
+
+// -------------------------------------------------------------------------------------------- VARS 
+
 // check if the city was selected before and is stored in cookies 
 var last_selected_city = localStorage.getItem("last_celected_city");
+
+if (localStorage.getItem("new_submitted_city_counter") == null) {
+	var new_submitted_city_counter = 0;
+} else {
+	var new_submitted_city_counter = localStorage.getItem("new_submitted_city_counter");
+}
+
+if (localStorage.getItem("cities_entered") == null) {
+	var cities_entered = "";
+} else {
+	var cities_entered = localStorage.getItem("cities_entered");
+}
 
 // -------------------------------------------------------------------------------------------- EVENTS 
 
@@ -19,7 +36,6 @@ window.onload = function() {
     if(last_selected_city != null) {
     	displayWeather(last_selected_city);
     }
-
 }
 
 
@@ -44,44 +60,74 @@ function displayWeather(city) {
 
 	var last_date_weather_was_fetched = localStorage.getItem("last_date_weather_was_fetched");
 
+	// record all cities entered to limit the api requests for any new cities  
+	if (cities_entered.search("__"+city+"__") == -1 && new_submitted_city_counter != city_lookup_day_limit) {
+		cities_entered += "__"+city+"__";
+		new_submitted_city_counter ++;
+
+		// record data to cookies
+		localStorage.setItem("new_submitted_city_counter", new_submitted_city_counter);
+		localStorage.setItem("cities_entered", cities_entered);
+	}
+
+	console.log("cities_entered = "+cities_entered);
+	console.log("new_submitted_city_counter = "+new_submitted_city_counter);
+
+
 	// only fetch weather data once a day so that daily api limit is not exceed quickly
 	if (last_date_weather_was_fetched != current_date || 
 		last_date_weather_was_fetched == null || 
-		localStorage.getItem("todays_weather") == null ||
-		city != last_selected_city
+		localStorage.getItem("todays_weather_in_"+city) == null ||
+		city != last_selected_city &&
+		cities_entered.search("__"+city+"__") == -1
 		) {
 
-		localStorage.setItem("last_date_weather_was_fetched", current_date);
+		// if a new city is being looked up but the daily city limit is exceeded
+		if (city != last_selected_city && 
+			cities_entered.search("__"+city+"__") == -1 &&
+			new_submitted_city_counter == city_lookup_day_limit) {
 
-	    var current_city = city;
+			$("#display").append("<p class='city_limit_allert'><br> Sorry I can't tell you weather for more than "+city_lookup_day_limit+" cities a day. Please try "+city+" tomorrow</p>");
 
-	    var url = "http://api.openweathermap.org/data/2.5/weather?q="+current_city+"&units="+celsius+"&appid="+openweathermap_api;
+		} else { 
+			localStorage.setItem("last_date_weather_was_fetched", current_date);
 
-	    $.getJSON(url, function(data) {
-	      
-	      console.log("data fetched from api");
-	      console.log(data);
-	      $("#display").html(data.name + "<br>" + data.main.temp_min);
+		    var current_city = city;
 
-	      // record todays weather data 
-	      localStorage.setItem("todays_weather", JSON.stringify(data));
+		    var url = "http://api.openweathermap.org/data/2.5/weather?q="+current_city+"&units="+celsius+"&appid="+openweathermap_api;
 
-	      // store the provided city in cookies 
-		  localStorage.setItem("last_celected_city", city);
+		    $.getJSON(url, function(data) {
+		      
+		      console.log("data fetched from api");
+		      console.log(data);
+		      $("#display").html(data.name + "<br>" + data.main.temp_min);
 
-	    })
-	    .fail(function() { 
-	    	$("#display").html("Son of a mother trucker! The shit's not working. Try again later maybe...");
-	    });
+		      // record todays weather data 
+		      localStorage.setItem("todays_weather_in_"+city, JSON.stringify(data));
+
+		      // store the provided city in cookies 
+			  localStorage.setItem("last_celected_city", city);
+
+		    })
+		    .fail(function() { 
+		    	$("#display").html("Son of a mother trucker! The shit's not working. Try again later maybe...");
+		    });
+		}
 
 	// if weather data was already fetched today
 	// get weather data from cookies and dont call api
 	} else {
-		var data = JSON.parse(localStorage.getItem("todays_weather"));
+
+		$(".city_limit_allert").remove();
+
+		var data = JSON.parse(localStorage.getItem("todays_weather_in_"+city));
 		console.log("data loaded from cookie");
 		console.log(data);
 	     $("#display").html(data.name + "<br>" + data.main.temp_min);
 	}
+
+	console.log("localStorage = ");
+    console.log(localStorage);
 
 }
 
