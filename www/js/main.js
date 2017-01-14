@@ -13,7 +13,7 @@ var city_lookup_day_limit = 3;
 // -------------------------------------------------------------------------------------------- VARS 
 
 // check if the city was selected before and is stored in cookies 
-var last_selected_city = localStorage.getItem("last_celected_city");
+var last_selected_city = localStorage.getItem("last_selected_city");
 
 if (localStorage.getItem("new_submitted_city_counter") == null) {
 	var new_submitted_city_counter = 0;
@@ -57,8 +57,20 @@ function displayWeather(city) {
 	var current_month = date.getMonth()+1;
 	var current_year = date.getFullYear()
 	var current_date = current_day+"-"+current_month+"-"+current_year;
+	
 
 	var last_date_weather_was_fetched = localStorage.getItem("last_date_weather_was_fetched");
+
+	// reset variables if the date changed 
+	if (current_date != last_date_weather_was_fetched) {
+		cities_entered = "";
+		new_submitted_city_counter = 0;
+
+		// reset cookies but keep last entered city
+		localStorage.clear();
+		localStorage.setItem("last_selected_city", last_selected_city);
+
+	}
 
 	// record all cities entered to limit the api requests for any new cities  
 	if (cities_entered.search("__"+city+"__") == -1 && new_submitted_city_counter != city_lookup_day_limit) {
@@ -106,7 +118,7 @@ function displayWeather(city) {
 		      localStorage.setItem("todays_weather_in_"+city, JSON.stringify(data));
 
 		      // store the provided city in cookies 
-			  localStorage.setItem("last_celected_city", city);
+			  localStorage.setItem("last_selected_city", city);
 
 		    })
 		    .fail(function() { 
@@ -124,6 +136,9 @@ function displayWeather(city) {
 		console.log("data loaded from cookie");
 		console.log(data);
 	     $("#display").html(data.name + "<br>" + data.main.temp_min);
+
+	    // store the provided city in cookies 
+		localStorage.setItem("last_selected_city", city);
 	}
 
 	console.log("localStorage = ");
