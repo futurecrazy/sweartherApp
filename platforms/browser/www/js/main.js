@@ -30,11 +30,9 @@ if (localStorage.getItem("cities_entered") == null) {
 // -------------------------------------------------------------------------------------------- EVENTS 
 
 window.onload = function() {
-
-
-    // if it has -- display weather
+    // if the city was ever previously selected -- display weather
     if(last_selected_city != null) {
-    	displayWeather(last_selected_city);
+    	getAndDisplayWeather(last_selected_city);
     }
 }
 
@@ -43,13 +41,13 @@ $(document).on("click","#submit_city",function(e) {
 
 	var typed_city = $("#city").val();
 
-	displayWeather(typed_city);
+	getAndDisplayWeather(typed_city);
 });
 
 
 // -------------------------------------------------------------------------------------------- FUNCTIONS 
 
-function displayWeather(city) {
+function getAndDisplayWeather(city) {
 
 	// get current date to record it in cookies so we fetch weather info from the api only once a day
 	var date = new Date();
