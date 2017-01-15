@@ -1,5 +1,5 @@
 
-// -------------------------------------------------------------------------------------------- PRESETS 
+// ===================================================================================================== PRESETS 
 
 // var openweathermap_api is located inside private_keys.js which is not commited
 // please generate your own api key at http://api.openweathermap.org
@@ -10,7 +10,7 @@ var fahrenheit = "imperial";
 // weather for how many cities can be looked up a day
 var city_lookup_day_limit = 3;
 
-// -------------------------------------------------------------------------------------------- VARS 
+// ===================================================================================================== VARS 
 
 // check if the city was selected before and is stored in cookies 
 var last_selected_city = localStorage.getItem("last_selected_city");
@@ -27,7 +27,7 @@ if (localStorage.getItem("cities_entered") == null) {
 	var cities_entered = localStorage.getItem("cities_entered");
 }
 
-// -------------------------------------------------------------------------------------------- EVENTS 
+// ===================================================================================================== EVENTS 
 
 window.onload = function() {
     // if the city was ever previously selected -- display weather
@@ -45,7 +45,10 @@ $(document).on("click","#submit_city",function(e) {
 });
 
 
-// -------------------------------------------------------------------------------------------- FUNCTIONS 
+// ===================================================================================================== FUNCTIONS 
+
+
+// --------------------------------------------------------------------------- WEATHER  
 
 function getAndDisplayWeather(city) {
 
@@ -141,13 +144,14 @@ function getAndDisplayWeather(city) {
 		localStorage.setItem("last_selected_city", city);
 	}
 
-	// ---------------------------------------------------------------- Display weather 
+	// ........................................................ Display weather 
 
 	function displayWeather(data) {
 
 		var weather_description = data.weather[0].description;
 
 		$("#display").html(data.name + "<br>" + data.main.temp_min + "<br>" + weather_description);
+
 	} // displayWeather()
 
 	console.log("localStorage = ");
@@ -155,3 +159,9 @@ function getAndDisplayWeather(city) {
 
 } //  getAndDisplayWeather(city)
 
+
+// --------------------------------------------------------------------------- SWEAR 
+
+function swear(about) {
+
+}
