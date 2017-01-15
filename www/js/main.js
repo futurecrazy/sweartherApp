@@ -141,9 +141,13 @@ function getAndDisplayWeather(city) {
 		localStorage.setItem("last_selected_city", city);
 	}
 
+	// ---------------------------------------------------------------- Display weather 
 
 	function displayWeather(data) {
-		$("#display").html(data.name + "<br>" + data.main.temp_min);
+
+		var weather_description = data.weather[0].description;
+
+		$("#display").html(data.name + "<br>" + data.main.temp_min + "<br>" + weather_description);
 	} // displayWeather()
 
 	console.log("localStorage = ");
