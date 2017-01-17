@@ -172,8 +172,30 @@ function getAndDisplayWeather(city) {
 // --------------------------------------------------------------------------- SWEAR 
 
 function swear(about) {
+	
+	// turn a sentence into an array 
+	var sentence_array = about.split(" ");
 
-	var complete_swearing = about;
+	// add swear words 
+	for (var i = 0; i < sentence_array.length; i++) {
+		
+		var current_word = sentence_array[i];
+
+		var random_number = getRandomInt(0, 3);
+		// decide if we want to swear or not
+		console.log(random_number);
+		
+		if (random_number == 2) {
+			// check if the next word is not a preposition
+			if (prepositions.indexOf(current_word) == -1) {
+				// insert a swear adjective before it 
+				sentence_array[i] = " fucking "+sentence_array[i];
+			}
+		}
+
+	};
+
+	var complete_swearing = sentence_array.join(" ");
 	return complete_swearing;
 }
 
@@ -181,7 +203,7 @@ function swear(about) {
 
 // ===================================================================================================== HELPERS 
 
-function getRandomArbitrary(min, max) {
-    return Math.random() * (max - min) + min;
-} 
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 

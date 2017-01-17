@@ -2,6 +2,7 @@ var prepositions = [
 	"the", // articles also go in prepositions as there are not many of them
 	"a",
 	"an",
+	"and",
 	"of",
 	"in",
 	"to",
