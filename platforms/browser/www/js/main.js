@@ -179,4 +179,9 @@ function swear(about) {
 
 
 
+// ===================================================================================================== HELPERS 
+
+function getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
+} 
 
