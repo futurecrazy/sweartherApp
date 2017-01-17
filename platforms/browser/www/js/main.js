@@ -148,9 +148,18 @@ function getAndDisplayWeather(city) {
 
 	function displayWeather(data) {
 
-		var weather_description = data.weather[0].description;
+		var city = data.name;
+		var temperature = data.main.temp_min;
+		var description = data.weather[0].description;
+		var br = "<br>"; // line break
 
-		$("#display").html(data.name + "<br>" + data.main.temp_min + "<br>" + weather_description);
+		var sentence_patterns = [
+			city + br + temperature + br  + description,
+			temperature + " and " + description + " today in " + city,
+			temperature + " in " + city + br + description
+		];
+
+		$("#display").html( swear(sentence_patterns[1]) );
 
 	} // displayWeather()
 
@@ -164,4 +173,10 @@ function getAndDisplayWeather(city) {
 
 function swear(about) {
 
+	var complete_swearing = about;
+	return complete_swearing;
 }
+
+
+
+
