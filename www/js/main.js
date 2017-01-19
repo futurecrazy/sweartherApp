@@ -31,8 +31,8 @@ if (localStorage.getItem("cities_entered") == null) {
 // ===================================================================================================== EVENTS 
 
 window.onload = function() {
-	
-	animateRandomBgColour();
+
+	swearUi();
 
     // if the city was ever previously selected -- display weather
     if(last_selected_city != null) {
@@ -46,10 +46,18 @@ $(document).on("submit","#cityform",function(e) {
 
 	var typed_city = $("#city").val();
 
+	// hide keyboard 
 	document.activeElement.blur();
     $("input").blur();
 
-	getAndDisplayWeather(typed_city);
+    if(typed_city != "") {
+		getAndDisplayWeather(typed_city);
+	}
+});
+
+
+$(document).on("click, touchend","#display",function(e) {
+	animateRandomBgColour();
 });
 
 
@@ -108,7 +116,10 @@ function getAndDisplayWeather(city) {
 			cities_entered.search("__"+city+"__") == -1 &&
 			new_submitted_city_counter == city_lookup_day_limit) {
 
-			$("#display").append("<p class='city_limit_allert'><br> Sorry I can't tell you weather for more than "+city_lookup_day_limit+" cities a day. Please try "+city+" tomorrow</p>");
+			var swear_adj = ing_adjectives[getRandomInt(0, ing_adjectives.length-1)];
+
+			animateRandomBgColour();
+			$("#display").html("<p class='city_limit_allert'>I can't tell "+swear_adj+" weather for more than "+city_lookup_day_limit+" "+swear_adj+" cities a day. Try "+city+" tomorrow</p>");
 
 		} else { 
 			localStorage.setItem("last_date_weather_was_fetched", current_date);
@@ -132,6 +143,7 @@ function getAndDisplayWeather(city) {
 
 		    })
 		    .fail(function() { 
+		    	animateRandomBgColour();
 		    	$("#display").html("Son of a mother trucker! The shit's not working. Try again later maybe...");
 		    });
 		}
@@ -167,6 +179,7 @@ function getAndDisplayWeather(city) {
 			temperature + " in " + city + "." + br + description.capitalizeFirstLetter() + "."
 		];
 
+		animateRandomBgColour();
 		$("#display").html( swear(sentence_patterns[getRandomInt(0, sentence_patterns.length-1)]) );
 
 	} // displayWeather()
@@ -304,6 +317,10 @@ function animateRandomBgColour() {
 			clearInterval(interval);
 		}
 	}, slow_down);
+}
+
+function swearUi() {
+	$("#city").attr("placeholder", "Enter a "+ing_adjectives[getRandomInt(0, ing_adjectives.length-1)]+" city");
 }
 
 
