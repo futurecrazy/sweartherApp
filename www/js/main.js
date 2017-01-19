@@ -181,15 +181,13 @@ function swear(about) {
 		
 		var current_word = sentence_array[i];
 
-		// the bigger the range -- the less likely a swear word will be inserted 
-		var random_number = getRandomInt(0, 3);
-
 		// decide if we want to swear or not
-		if (random_number == 2) {
+		// bigger the range -- the less likely a swear word will be inserted 
+		if (getRandomInt(0, 3) == 2) {
 			// check if the next word is not a preposition
 			if (prepositions.indexOf(current_word) == -1) {
 				// insert a swear adjective before it 
-				sentence_array[i] = " fucking "+sentence_array[i];
+				sentence_array[i] = adjectives[getRandomInt(0, adjectives.length-1)]+" "+sentence_array[i];
 			}
 		}
 
