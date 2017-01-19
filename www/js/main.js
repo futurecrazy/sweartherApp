@@ -162,9 +162,9 @@ function getAndDisplayWeather(city) {
 		var br = "<br>"; // line break
 
 		var sentence_patterns = [
-			city + br + temperature + br  + description,
-			temperature + " and " + description + " today in " + city,
-			temperature + " in " + city + br + description
+			city + "." + br + temperature + "." + br  + description.capitalizeFirstLetter() + ".",
+			temperature + " and " + description + " today in " + city + ".",
+			temperature + " in " + city + "." + br + description.capitalizeFirstLetter() + "."
 		];
 
 		$("#display").html( swear(sentence_patterns[getRandomInt(0, sentence_patterns.length-1)]) );
@@ -189,6 +189,12 @@ dont_use_non_ing_swear_words_before = [
 	"intensity"
 ];
 
+punctuation = [
+	".",
+	"!",
+	"?"
+];
+
 function swear(about) {
 	
 	// turn a sentence into an array 
@@ -198,6 +204,13 @@ function swear(about) {
 	for (var i = 0; i < sentence_array.length; i++) {
 		
 		var current_word = sentence_array[i];
+
+		if (i != 0) {
+			var previous_word = sentence_array[i-1];
+		} else {
+			var previous_word = "";
+		}
+
 
 		// decide if we want to swear or not
 		// bigger the range -- the less likely a swear word will be inserted 
@@ -213,6 +226,14 @@ function swear(about) {
 				} else {
 					var current_swear_word = adjectives[getRandomInt(0, adjectives.length-1)];
 				}
+
+				var last_char_of_a_prev_word = previous_word.slice(-1);
+
+				var beginning_of_sentence = i == 0 || punctuation.indexOf(last_char_of_a_prev_word) != -1;
+				if (beginning_of_sentence) {
+					current_swear_word = current_swear_word.capitalizeFirstLetter();
+				}
+
 
 				var dont_swear = false;
 
@@ -250,11 +271,11 @@ function addExclamations(sentence) {
 	var add_in_the_end = getRandomInt(0, 1) == 1;
 
 	if (add_in_the_beginning) {
-		sentence = exclamations[getRandomInt(0, exclamations.length-1)]+"<br>"+sentence;
+		sentence = exclamations[getRandomInt(0, exclamations.length-1)].capitalizeFirstLetter()+"<br>"+sentence;
 	}
 
 	if (add_in_the_end) {
-		sentence = sentence + "<br>"+exclamations[getRandomInt(0, exclamations.length-1)];
+		sentence = sentence + "<br>"+exclamations[getRandomInt(0, exclamations.length-1)].capitalizeFirstLetter();
 	}
 
 	return sentence;
@@ -301,3 +322,6 @@ function get_random_color() {
     return 'hsl(' + h + ',' + s + '%,' + l + '%)';
 }
 
+String.prototype.capitalizeFirstLetter = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
