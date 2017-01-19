@@ -171,6 +171,16 @@ function getAndDisplayWeather(city) {
 
 // --------------------------------------------------------------------------- SWEAR 
 
+// exceptions
+dont_use_non_ing_swear_words_before = [
+	"today",
+	"yesterday",
+	"tomorrow",
+	"now",
+	"again",
+	"intensity"
+];
+
 function swear(about) {
 	
 	// turn a sentence into an array 
@@ -186,8 +196,24 @@ function swear(about) {
 		if (getRandomInt(0, 3) == 2) {
 			// check if the next word is not a preposition
 			if (prepositions.indexOf(current_word) == -1) {
-				// insert a swear adjective before it 
-				sentence_array[i] = adjectives[getRandomInt(0, adjectives.length-1)]+" "+sentence_array[i];
+
+				var current_swear_word = adjectives[getRandomInt(0, adjectives.length-1)];
+
+				var dont_swear = false;
+
+				var use_current_word_only_with_ing = dont_use_non_ing_swear_words_before.indexOf(current_word) != -1;
+
+				var current_swear_word_doesnt_end_with_ing = current_swear_word.slice(-3) != "ing";
+
+				if (use_current_word_only_with_ing && current_swear_word_doesnt_end_with_ing) {
+					dont_swear = true;
+				}
+
+				if (dont_swear == false) {
+					// insert a swear adjective before it 
+					sentence_array[i] = current_swear_word+" "+sentence_array[i];
+				}
+
 			}
 		}
 
