@@ -10,6 +10,7 @@ var fahrenheit = "imperial";
 // weather for how many cities can be looked up a day
 var city_lookup_day_limit = 3;
 
+
 // ===================================================================================================== VARS 
 
 // check if the city was selected before and is stored in cookies 
@@ -197,7 +198,14 @@ function swear(about) {
 			// check if the next word is not a preposition
 			if (prepositions.indexOf(current_word) == -1) {
 
-				var current_swear_word = adjectives[getRandomInt(0, adjectives.length-1)];
+				// bigger the range -- the less likely a generate swear word will be used 
+				var use_generated_swear_word = getRandomInt(0, 3) == 2;
+
+				if (use_generated_swear_word) {
+					var current_swear_word = generateSwearAdjective();
+				} else {
+					var current_swear_word = adjectives[getRandomInt(0, adjectives.length-1)];
+				}
 
 				var dont_swear = false;
 
@@ -223,6 +231,10 @@ function swear(about) {
 	return complete_swearing;
 }
 
+
+function generateSwearAdjective() {
+	return mother_rhymes[getRandomInt(0, mother_rhymes.length-1)] + fucking_rhymes[getRandomInt(0, fucking_rhymes.length-1)];
+}
 
 
 // ===================================================================================================== HELPERS 

@@ -153,3 +153,14 @@ function getIngAdjectives() {
 	};
 	return ing_array;
 }
+
+
+var fucking_rhymes = [
+"attacking", "backing", "cracking", "jacking", "lacking", "packing", "racking", "sacking", "smacking", "stacking", "tacking", "tracking", "whacking", "wracking"
+];
+
+var mother_rhymes = [
+"mother", "brother", "smother", "father"
+];
+
+
