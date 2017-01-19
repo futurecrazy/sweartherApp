@@ -160,7 +160,7 @@ function getAndDisplayWeather(city) {
 			temperature + " in " + city + br + description
 		];
 
-		$("#display").html( swear(sentence_patterns[1]) );
+		$("#display").html( swear(sentence_patterns[getRandomInt(0, sentence_patterns.length-1)]) );
 
 	} // displayWeather()
 
