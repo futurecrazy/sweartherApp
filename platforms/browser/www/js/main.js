@@ -31,6 +31,9 @@ if (localStorage.getItem("cities_entered") == null) {
 // ===================================================================================================== EVENTS 
 
 window.onload = function() {
+	
+	animateRandomBgColour();
+
     // if the city was ever previously selected -- display weather
     if(last_selected_city != null) {
     	getAndDisplayWeather(last_selected_city);
@@ -38,9 +41,13 @@ window.onload = function() {
 }
 
 
-$(document).on("click","#submit_city",function(e) {
+$(document).on("submit","#cityform",function(e) {
+	e.preventDefault();
 
 	var typed_city = $("#city").val();
+
+	document.activeElement.blur();
+    $("input").blur();
 
 	getAndDisplayWeather(typed_city);
 });
@@ -254,9 +261,43 @@ function addExclamations(sentence) {
 }
 
 
+// --------------------------------------------------------------------------- STYLING
+
+function animateRandomBgColour() {
+	// $("body").css("background-color", get_random_color());
+	// setTimeout(function(){ 
+	// 	$("body").css("background-color", get_random_color());
+	// }, 500);
+	
+	$("body").css("background-color", get_random_color());
+	
+	var counter = 0;
+	
+	var slow_down = 10; 
+
+	var interval = setInterval(function(){ 
+		counter++;
+		slow_down = slow_down+30;
+		$("body").css("background-color", get_random_color());
+		if (counter == 30) {
+			clearInterval(interval);
+		}
+	}, slow_down);
+}
+
+
 // ===================================================================================================== HELPERS 
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+//http://jsfiddle.net/5V8mV/1/
+// good to use this jsfiddle to test the color range
+function get_random_color() {
+    var h = getRandomInt(1, 360); // color hue between 1 and 360
+    var s = getRandomInt(90, 100); // saturation 30-100%
+    var l = getRandomInt(60, 70); // lightness 30-70%
+    return 'hsl(' + h + ',' + s + '%,' + l + '%)';
 }
 
