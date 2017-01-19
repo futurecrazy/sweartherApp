@@ -3,6 +3,13 @@
 	-webkit-box-sizing: border-box;
 }
 
+
+@font-face {
+font-family: "Bangers";
+src: url("../fonts/Bangers-Regular.ttf") format("opentype");
+}
+
+
 body {
 /*	transition: background-color 0.3s;
 	-webkit-transition: background-color 0.3s;*/
@@ -14,11 +21,11 @@ body {
 
 #display {
 	margin-top: 20px;
-	font-family: sans-serif;
+	font-family: 'Bangers', sans-serif;
 	font-size: 50px;
-	color: white;
-	mix-blend-mode: lighten;
-	/*text-shadow: 1px 1px #FF0000;*/
+	color: red;
+	mix-blend-mode: difference;
+	text-shadow: 1px 1px white;
 	line-height: 1.2;
 }
 
@@ -30,10 +37,10 @@ body {
 }
 
 .input_area {
-	position: fixed;
 	width: 100%;
 	bottom: 0;
 	margin-bottom: 10px;
+	margin-top: 10px;
 }
 
 input {
@@ -41,18 +48,23 @@ input {
     -moz-appearance: none;
     appearance: none;
 
-	border: none;
+	border: 2px solid red;
+	mix-blend-mode: difference;
+
+	color: red;
+
 	padding: 10px 15px;
 	width: 100%;
 	font-size: 1.2em;
 	border-radius: 2px;
 	-webkit-border-radius: 2px;
 	-ms-radius: 2px;
-	box-shadow: none;
-	-webkit-box-shadow: none;
 	/*background-color: rgba(255,255,255,0.8);*/
-	background-color: white;
-	opacity: 0.6;
+	background-color: transparent;
+}
+
+::-webkit-input-placeholder {
+	color: red;
 }
 
 input[type="text"] {
@@ -62,5 +74,4 @@ input[type="text"] {
 
 input[type="submit"] {
 	text-transform: uppercase;
-	color: rgba(0,0,0,0.5);
 }
