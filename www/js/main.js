@@ -194,12 +194,12 @@ function swear(about) {
 
 		// decide if we want to swear or not
 		// bigger the range -- the less likely a swear word will be inserted 
-		if (getRandomInt(0, 3) == 2) {
+		if (getRandomInt(0, 1) == 1) {
 			// check if the next word is not a preposition
 			if (prepositions.indexOf(current_word) == -1) {
 
 				// bigger the range -- the less likely a generate swear word will be used 
-				var use_generated_swear_word = getRandomInt(0, 3) == 2;
+				var use_generated_swear_word = getRandomInt(0, 10) == 2;
 
 				if (use_generated_swear_word) {
 					var current_swear_word = generateSwearAdjective();
