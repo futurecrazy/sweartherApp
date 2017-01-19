@@ -101,7 +101,6 @@ var adjectives = [
 "shabby", 
 "shoddy", 
 "trashy",
-"decaying", 
 "foul", 
 "putrescent", 
 "putrid", 
@@ -137,3 +136,20 @@ var adjectives = [
 "pernicious", 
 "wicked"
 ];
+
+// can be inserted before any nown 
+var ing_adjectives = getIngAdjectives();
+
+function getIngAdjectives() {
+
+	var ing_array = [];
+
+	for (var i = 0; i < adjectives.length; i++) {
+		// if the word ends at "ing"
+		if (adjectives[i].slice(-3) == "ing") {
+			// put it inside ing_array
+			ing_array.push(adjectives[i]);
+		}
+	};
+	return ing_array;
+}

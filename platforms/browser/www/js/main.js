@@ -181,10 +181,10 @@ function swear(about) {
 		
 		var current_word = sentence_array[i];
 
+		// the bigger the range -- the less likely a swear word will be inserted 
 		var random_number = getRandomInt(0, 3);
+
 		// decide if we want to swear or not
-		console.log(random_number);
-		
 		if (random_number == 2) {
 			// check if the next word is not a preposition
 			if (prepositions.indexOf(current_word) == -1) {
