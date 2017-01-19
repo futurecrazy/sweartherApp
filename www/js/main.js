@@ -228,12 +228,29 @@ function swear(about) {
 	};
 
 	var complete_swearing = sentence_array.join(" ");
+	var complete_swearing = addExclamations(complete_swearing);
 	return complete_swearing;
 }
 
 
 function generateSwearAdjective() {
 	return mother_rhymes[getRandomInt(0, mother_rhymes.length-1)] + fucking_rhymes[getRandomInt(0, fucking_rhymes.length-1)];
+}
+
+function addExclamations(sentence) {
+
+	var add_in_the_beginning = getRandomInt(0, 1) == 1;
+	var add_in_the_end = getRandomInt(0, 1) == 1;
+
+	if (add_in_the_beginning) {
+		sentence = exclamations[getRandomInt(0, exclamations.length-1)]+"<br>"+sentence;
+	}
+
+	if (add_in_the_end) {
+		sentence = sentence + "<br>"+exclamations[getRandomInt(0, exclamations.length-1)];
+	}
+
+	return sentence;
 }
 
 
